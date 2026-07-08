@@ -1,0 +1,49 @@
+schemaVersion: "1"
+kind: mixin
+name: dev-tools
+network:
+  allowedDomains:
+    - "**"
+commands:
+  install:
+    # tools available from system package manager
+    - command: "apt install -y gopls yq ripgrep golang"
+      user: "0"
+      description: "Install tools from system package manager"
+    # UDS cli
+    - command: |
+        APP=uds-cli
+        ARCH=$(go env GOARCH)
+        OS=$(go env GOOS)
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/defenseunicorns/${APP}/releases/latest | jq -r '.name')
+        curl -fsSL -o /usr/bin/uds https://github.com/defenseunicorns/${APP}/releases/download/${LATEST_VERSION}/${APP}_${LATEST_VERSION}_${OS}_${ARCH}
+        chmod +x /usr/bin/uds
+      user: "0"
+      description: "Install latest UDS cli from github"
+    # UDS mcp
+    - command: |
+        APP=uds-mcp
+        ARCH=$(go env GOARCH)
+        OS=$(go env GOOS)
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/defenseunicorns/${APP}/releases/latest | jq -r '.name')
+        curl -fsSL -o /usr/bin/${APP} https://github.com/defenseunicorns/${APP}/releases/download/${LATEST_VERSION}/${APP}-${OS}-${ARCH}
+        chmod +x /usr/bin/${APP}
+        ${APP} update
+        ${APP} --init-env
+      user: "0"
+      description: "Install latest UDS MCP server from github"
+    # GSD
+    - command: "npx @opengsd/gsd-core@latest --global --all --force-statusline"
+      user: "1000"
+      description: "Install latest GSD"
+    # skills
+    - command: |
+        npx skills add https://github.com/addyosmani/agent-skills         --global --agent '*' --yes --skill documentation-and-adrs
+        npx skills add https://github.com/affaan-m/everything-claude-code --global --agent '*' --yes --skill golang-patterns
+        npx skills add https://github.com/affaan-m/everything-claude-code --global --agent '*' --yes --skill golang-testing
+        npx skills add https://github.com/szkocot/andrej-karpathy-skills  --global --agent '*' --yes --skill karpathy-guidelines
+        npx skills add https://github.com/vercel-labs/skills              --global --agent '*' --yes --skill find-skills
+        npx skills add https://github.com/obra/superpowers                --global --agent '*' --yes --skill systematic-debugging
+        npx skills add https://github.com/juliusbrussee/caveman           --global --agent '*' --yes --skill caveman-commit
+      user: "1000"
+      description: "Install agent skills"
