@@ -7,7 +7,7 @@ network:
 commands:
   install:
     # tools available from system package manager
-    - command: "apt install -y gopls yq ripgrep golang"
+    - command: "apt update && apt install -y gopls yq ripgrep golang"
       user: "0"
       description: "Install tools from system package manager"
     # UDS cli
@@ -47,4 +47,3 @@ commands:
         npx skills add https://github.com/juliusbrussee/caveman           --global --agent '*' --yes --skill caveman-commit
       user: "1000"
       description: "Install agent skills"
-
