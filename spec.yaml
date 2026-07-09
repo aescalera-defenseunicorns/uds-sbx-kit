@@ -33,7 +33,7 @@ commands:
     #     LATEST_VERSION=$(curl -s https://api.github.com/repos/defenseunicorns/${APP}/releases/latest | jq -r '.name')
     #     mkdir -p ~/.uds/bin
     #     curl -fsSL -o ~/.uds/bin/${APP} https://github.com/defenseunicorns/${APP}/releases/download/${LATEST_VERSION}/${APP}-${OS}-${ARCH}
-    #     curl -fsSL -o ~/.uds/bin/${APP}-server-${OS}-${ARCH} https://github.com/defenseunicorns/${APP}/releases/download/${LATEST_VERSION}/${APP}-server-${OS}-${ARCH}
+    #     curl -fsSL -o ~/.uds/bin/${APP}-server https://github.com/defenseunicorns/${APP}/releases/download/${LATEST_VERSION}/${APP}-server-${OS}-${ARCH}
     #     chmod +x ~/.uds/bin/${APP}*
     #     ${APP} update
     #     ${APP} --init-env
